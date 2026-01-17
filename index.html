@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ONI 环境监控终端 (修复版)</title>
@@ -35,7 +36,7 @@
             width: 100%;
             max-width: 800px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             position: sticky;
             top: 10px;
             z-index: 100;
@@ -83,7 +84,8 @@
             background: var(--panel-color);
             border: 1px solid var(--border);
             padding: 15px;
-            border-left-width: 4px; /* 状态指示条 */
+            border-left-width: 4px;
+            /* 状态指示条 */
         }
 
         .card-header {
@@ -140,6 +142,7 @@
             cursor: pointer;
             margin-right: 5px;
         }
+
         button.active {
             background: var(--accent-color);
             color: #000;
@@ -147,6 +150,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="control-panel">
@@ -159,9 +163,9 @@
                 STATUS: <span id="statusText" style="color:var(--green)">ONLINE</span>
             </div>
         </div>
-        
+
         <input type="range" id="slider" min="-200" max="200" value="20" step="1">
-        
+
         <div style="margin-top:10px;">
             <button class="active" onclick="setFilter('all', this)">ALL</button>
             <button onclick="setFilter('plant', this)">PLANTS</button>
@@ -195,18 +199,32 @@
             { id: "G1", name: "汗甜玉米", type: "plant", min: -5, max: 40, d_min: -10, d_max: 50 },
             { id: "S3", name: "沼浆笼", type: "plant", min: 10, max: 30, d_min: -55, d_max: 125 },
             { id: "V1", name: "蔓殖藤", type: "plant", min: 25, max: 45, d_min: 0, d_max: 105 },
-            
+            { id: "CarrotPlant", name: "羽叶果薯", type: "plant", min: -55, max: -14, d_min: -155, d_max: -4 },
+            { id: "WormPlant", name: "虫果芽", type: "plant", min: 15, max: 50, d_min: 0, d_max: 100 },
+            { id: "ForestTree", name: "乔木树", type: "plant", min: 15, max: 40, d_min: -15, d_max: 175 },
+            { id: "SaltPlant", name: "沙盐藤", type: "plant", min: -25, max: 50, d_min: -75, d_max: 120 },
+            { id: "KelpPlant", name: "海梳蕨", type: "plant", min: -10, max: 85, d_min: -20, d_max: 100 },
+            { id: "SpaceTree", name: "糖心树", type: "plant", min: -75, max: -15, d_min: -100, d_max: 20 },
+            { id: "SwampLily", name: "芳香百合", type: "plant", min: 35, max: 85, d_min: -15, d_max: 175 },
+            { id: "GasGrass", name: "释气草", type: "plant", min: -273, max: 75, d_min: -273, d_max: 100 },
+            { id: "DewDripperPlant", name: "露珠藤", type: "plant", min: -35, max: 5, d_min: -55, d_max: 35 },
+            { id: "FlyTripPlant", name: "露饵花", type: "plant", min: 10, max: 55, d_min: 0, d_max: 75 },
+            { id: "BasicFabricPlant", name: "顶针芦苇", type: "plant", min: 22, max: 37, d_min: -25, d_max: 125 },
+            { id: "ColdBreather", name: "冰息萝卜", type: "plant", min: -60, max: 95, d_min: -90, d_max: 190 },
+            { id: "BlueGrass", name: "气囊芦荟", type: "plant", min: -80, max: 0, d_min: -80, d_max: 0 },
+            { id: "Oxyfern", name: "氧齿蕨", type: "plant", min: 0, max: 40, d_min: -20, d_max: 100 },
+
         ];
 
         let currentFilter = 'all';
 
         // --- 核心逻辑 ---
-        
+
         // 确保页面加载完再运行 JS
         document.addEventListener('DOMContentLoaded', () => {
             console.log("System Initialized");
             render(); // 首次运行
-            
+
             // 绑定滑块事件
             const slider = document.getElementById('slider');
             slider.addEventListener('input', render);
@@ -225,14 +243,14 @@
             const slider = document.getElementById('slider');
             const tempVal = document.getElementById('tempVal');
             const statusText = document.getElementById('statusText');
-            
+
             // 获取当前温度
             const T = parseFloat(slider.value);
             tempVal.innerText = T.toFixed(1) + "°C";
 
             // 清空列表
             grid.innerHTML = '';
-            
+
             let problemCount = 0;
 
             DB.forEach(item => {
@@ -294,4 +312,5 @@
         }
     </script>
 </body>
+
 </html>
